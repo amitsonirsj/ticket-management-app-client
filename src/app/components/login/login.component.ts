@@ -13,12 +13,13 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class LoginComponent {
   loginForm: FormGroup | any;
+  isLoading = false;
 
   constructor(
     private router: Router,
     private _apiHttpService: ApiHttpService,
     private _toastrService: ToastrService,
-    private _helperService:HelperService
+    private _helperService: HelperService
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(
@@ -35,7 +36,9 @@ export class LoginComponent {
     if (!this.loginForm.valid) {
       return;
     }
-    this._apiHttpService.login(this.loginForm.value).subscribe((data:LoginResponse) => {
+    this.isLoading = true;
+    this._apiHttpService.login(this.loginForm.value).subscribe((data: LoginResponse) => {
+      this.isLoading = false;
       if (data) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
@@ -43,6 +46,8 @@ export class LoginComponent {
         this._toastrService.success('Login Success!');
         this.router.navigate(['/', 'dashboard']);
       }
+    }, error => {
+      this.isLoading = false;
     })
   }
 }

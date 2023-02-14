@@ -13,6 +13,7 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class SignupComponent {
   signupForm: FormGroup | any;
+  isLoading = false;
 
   constructor(
     private router: Router,
@@ -36,7 +37,9 @@ export class SignupComponent {
     if (!this.signupForm.valid) {
       return;
     }
+    this.isLoading = true;
     this._apiHttpService.signup(this.signupForm.value).subscribe((data: LoginResponse) => {
+      this.isLoading = false;
       if (data) {        
         localStorage.setItem('token', data.token);
         localStorage.setItem('role', data.role);
@@ -44,6 +47,8 @@ export class SignupComponent {
         this._toastrService.success('Signup Success!');
         this.router.navigate(['/', 'dashboard']);
       }
+    }, error => {
+      this.isLoading = false;
     })
   }
 }

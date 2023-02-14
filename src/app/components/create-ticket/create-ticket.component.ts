@@ -1,10 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LoginResponse, Ticket } from 'src/app/entities/app.entities';
+import { Ticket } from 'src/app/entities/app.entities';
 import { ApiHttpService } from 'src/app/services/api-http.service';
-import { HelperService } from 'src/app/services/helper.service';
 
 @Component({
   selector: 'app-create-ticket',
@@ -13,14 +11,13 @@ import { HelperService } from 'src/app/services/helper.service';
 })
 export class CreateTicketComponent {
   ticketForm: FormGroup | any;
+  isLoading = false;
   productTypeOptions = ['Mobile', 'Website', 'General', 'Other'];
   @ViewChild('formDirective') private formDirective!: NgForm;
 
   constructor(
-    private router: Router,
     private _apiHttpService: ApiHttpService,
-    private _toastrService: ToastrService,
-    private _helperService: HelperService
+    private _toastrService: ToastrService
   ) {
     this.ticketForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
@@ -34,12 +31,16 @@ export class CreateTicketComponent {
     if (!this.ticketForm.valid) {
       return;
     }
+    this.isLoading = true;
     this._apiHttpService.createTicket(this.ticketForm.value).subscribe((data: Ticket) => {
-      if (data) {  
+      this.isLoading = false;
+      if (data) {
         this.formDirective.resetForm();
-        this.ticketForm.reset();      
+        this.ticketForm.reset();
         this._toastrService.success('Ticket created sucessfully!');
       }
+    }, error => {
+      this.isLoading = false;
     })
   }
 }

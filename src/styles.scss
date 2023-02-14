@@ -7,3 +7,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .spacer {
     flex: 1 1 auto;
 }
+
+.loader-button {
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    mat-icon {
+        margin: 0;
+    }
+}

@@ -25,6 +25,7 @@ import { TicketDetailComponent } from './components/ticket-detail/ticket-detail.
 import { JwtModule } from "@auth0/angular-jwt";
 import { CreateTicketComponent } from './components/create-ticket/create-ticket.component';
 import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -65,7 +66,8 @@ export function tokenGetter() {
         tokenGetter: tokenGetter
       },
     }),
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {
