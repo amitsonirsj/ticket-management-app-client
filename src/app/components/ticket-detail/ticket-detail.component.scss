@@ -1,0 +1,53 @@
+.dialog-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.label {
+    font-weight: bold;
+}
+
+tr,td{
+    padding: 10px 50px 10px 0px;
+}
+
+.mdc-dialog__title::before {
+    display: none;
+}
+
+h2 {
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.save-button {
+    text-align: right;
+}
+
+.mat-mdc-dialog-content {
+    max-height: 90vh;
+}
+
+.comment-card {
+    margin-top: 10px;
+}
+p{
+    margin: 10px 0;
+}
+
+.close-button {
+    margin-top: 10px;
+}
+
+.d-flex-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

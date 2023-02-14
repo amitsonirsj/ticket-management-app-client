@@ -1,0 +1,46 @@
+<div class="d-flex-center">
+    <div class="login-container text-center">
+        <h4 class="text-center">Create Ticket</h4>
+        <form [formGroup]="ticketForm" #formDirective="ngForm" (ngSubmit)="onSubmit()" novalidate class="d-flex-center">
+            <div class="login-form-container">
+                <div>
+                    <mat-form-field>
+                        <input matInput placeholder="Title" formControlName="title">
+                        <mat-error
+                            *ngIf="ticketForm.get('title')?.invalid && (ticketForm.get('title')?.dirty || ticketForm.get('title')?.touched) && ticketForm.get('title')?.errors?.required">
+                            Title is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <textarea matInput placeholder="Description" formControlName="description"></textarea>
+                        <mat-error
+                            *ngIf="ticketForm.get('description')?.invalid && (ticketForm.get('description')?.dirty || ticketForm.get('description')?.touched) && ticketForm.get('description')?.errors?.required">
+                            Description is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-select formControlName="productType">
+                            <mat-option *ngFor="let type of productTypeOptions" [value]="type">
+                                {{type}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="ticketForm.get('productType')?.invalid && (ticketForm.get('productType')?.dirty || ticketForm.get('productType')?.touched) && ticketForm.get('productType')?.errors?.required">
+                            Product type is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="mt-top d-flex-center">
+                    <button [disabled]="!ticketForm.valid" mat-raised-button color="primary" mat-button>Create</button>
+                </div>
+            </div>
+        </form>
+        <div class="mt-top d-flex-center">
+            <button mat-button color="primary" routerLink="/dashboard">Manage tickets<mat-icon>subdirectory_arrow_right</mat-icon></button>
+        </div>
+    </div>
+</div>

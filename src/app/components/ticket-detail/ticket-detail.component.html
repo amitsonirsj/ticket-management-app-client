@@ -1,0 +1,89 @@
+<div mat-dialog-title class="dialog-button-container">
+    <h2 mat-dialog-title>Ticket Detail</h2>
+    <button class="close-button" mat-dialog-close mat-icon-button color="primary">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+    <table>
+        <tr>
+            <td class="label">Title</td>
+            <td>{{data.title}}</td>
+        </tr>
+        <tr>
+            <td class="label">Created at</td>
+            <td>{{data.createdAt | date: 'dd/MM/yyyy'}}</td>
+        </tr>
+        <tr>
+            <td class="label">Product type</td>
+            <td>{{data.productType}}</td>
+        </tr>
+        <tr *ngIf="!updateStatus">
+            <td class="label">Status</td>
+            <td>
+                {{data.status}}
+                <button mat-button color="primary" (click)="showStatus()" *ngIf="userRole != 'Normal User'">Update</button>
+            </td>
+        </tr>
+        <tr *ngIf="updateStatus">
+            <td class="label">Status</td>
+            <td class="d-flex-center">
+                <mat-form-field appearance="fill">
+                    <mat-select [formControl]="status">
+                        <mat-option *ngFor="let status of statusOption" [value]="status">
+                            {{status}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button [disabled]="!status.valid" mat-button color="primary" (click)="saveStatus()">Save</button>
+            </td>
+        </tr>
+        <tr *ngIf="!updateAssignee">
+            <td class="label">Assigned to</td>
+            <td>
+                {{data.assignedToDetail ? data.assignedToDetail.name + '(' + data.assignedToDetail.email + ')' : '-'}}
+                <button mat-button color="primary" (click)="showAssignedUser()" *ngIf="userRole != 'Normal User'">Update</button>
+            </td>
+        </tr>
+        <tr *ngIf="updateAssignee">
+            <td class="label">Assigned to</td>
+            <td class="d-flex-center">
+                <mat-form-field appearance="fill">
+                    <mat-select [formControl]="assignee">
+                        <mat-option *ngFor="let user of users" [value]="user.id">
+                            {{user.email}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button [disabled]="!assignee.valid" mat-button color="primary" (click)="saveAssignee()">Save</button>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Created by</td>
+            <td>{{data.createdByDetail.name}}({{data.createdByDetail.email}})</td>
+        </tr>
+        <tr>
+            <td class="label">Description</td>
+            <td>{{data.description}}</td>
+        </tr>
+    </table>
+    <h2>Comments</h2>
+    <mat-form-field>
+        <textarea matInput placeholder="Leave a comment" [formControl]="comment"></textarea>
+    </mat-form-field>
+    <div class="save-button">
+        <button [disabled]="!comment.valid" mat-raised-button color="primary" (click)="saveComment()">Save</button>
+    </div>
+    <div>
+        <mat-card class="comment-card" *ngFor="let comment of data.comments">
+            <mat-card-header>
+                <mat-card-title>{{comment.createdByDetail.name}}</mat-card-title>
+                <mat-card-subtitle>{{comment.createdByDetail.email}}</mat-card-subtitle>
+                <mat-card-subtitle>{{comment.createdAt | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{comment.content}}</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</mat-dialog-content>
